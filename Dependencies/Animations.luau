@@ -1,7 +1,10 @@
+--!strict
+
 local TweenService = game:GetService("TweenService")
+local Types = require(script.Parent.Types)
+
 local Animation = {}
 
--- Function to create and apply a tween animation to a UI element
 function Animation.Tween(instance, properties, duration, easingStyle, easingDirection)
 	local tweenInfo = TweenInfo.new(
 		duration or 0.5, 
@@ -22,8 +25,6 @@ function Animation.Sequence(instance, sequenceTable)
 	end
 end
 
--- Gradients
--- Lerp between two Color3 values
 local function lerpColor(color1, color2, alpha)
 	return Color3.new(
 		color1.R + (color2.R - color1.R) * alpha,
@@ -32,7 +33,6 @@ local function lerpColor(color1, color2, alpha)
 	)
 end
 
--- Find color at a specific time point in a ColorSequence
 local function getColorAtTime(sequence, time)
 	local keypoints = sequence.Keypoints
 
@@ -63,7 +63,6 @@ local function getColorAtTime(sequence, time)
 	return keypoints[#keypoints].Value
 end
 
--- Create a new ColorSequence by interpolating between two ColorSequences
 local function createIntermediateColorSequence(sequence1, sequence2, alpha)
 	-- Combine all time points from both sequences
 	local timePoints = {}
@@ -102,7 +101,6 @@ local function createIntermediateColorSequence(sequence1, sequence2, alpha)
 	return ColorSequence.new(newKeypoints)
 end
 
--- Animate transition between two gradients
 function Animation.TweenGradient(gradient, fromSequence, toSequence, duration, style)
 	style = style or Enum.EasingStyle.Linear
 

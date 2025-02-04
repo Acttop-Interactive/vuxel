@@ -1,3 +1,7 @@
+--!strict
+
+local Types = require(script.Parent.Types)
+
 local Style = {}
 
 local globalStyles = {}
@@ -17,7 +21,7 @@ function Style.DefineScope(componentName, styles)
 end
 
 -- Function to define reusable class-based styles
-function Style.DefineClass(className, properties)
+function Style.DefineClass(className : string, properties)
 	if classes[className] then
 		warn("[Vuxel] Class '" .. className .. "' is already defined. Overwriting.")
 	end

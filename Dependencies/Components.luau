@@ -1,7 +1,11 @@
-local Components = {}
+--!strict
+
+local Types = require(script.Parent.Types)
 local State = require(script.Parent.State)
 local References = require(script.Parent.References)
 local Style = require(script.Parent.Style)
+
+local Components = {}
 
 local lifecycleRegistry = setmetatable({}, { __mode = "k" }) -- Weak table to store lifecycle hooks
 
@@ -80,7 +84,7 @@ function Components.New(class, props, self)
 	local inlineStyle = props.Style or {}
 	
 	-- Merge global, scoped, class-based, and inline styles
-	local styleProps = Style.GetStyle(componentName, classNames)
+	local styleProps = Style.GetStyle(class)
 	for prop, value in pairs(inlineStyle) do
 		styleProps[prop] = value  -- Inline styles take highest priority
 	end
@@ -99,7 +103,6 @@ function Components.New(class, props, self)
 	return instance
 end
 
--- Modified `Template` function to include `self` scoping
 function Components.Template(template, parentSelf)
 	-- Create a new self table to hold references to child components
 	local self = parentSelf or {}
@@ -110,6 +113,7 @@ function Components.Template(template, parentSelf)
 
 	-- Store the main instance in self under its specified name (if provided)
 	if template.Name then
+		instance.Name = template.Name -- Set the instance name to the template name (Fix FoolSnipe bug that was pointed out)
 		self[template.Name] = instance
 		References.Add(template.Name, instance)
 	end

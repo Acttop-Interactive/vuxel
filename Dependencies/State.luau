@@ -1,17 +1,21 @@
+--!strict
+
+local Types = require(script.Parent.Types)
+
 local State = {}
 State.__index = State
 
-function State.new(initialValue)
+function State.new(initialValue : any)
 	if initialValue == nil then
 		error("Initial value cannot be nil")
 	end
-	local self = setmetatable({}, State)
+	local self = setmetatable({} :: Types.StateObject, State)
 	self.Value = initialValue
 	self.Changed = Instance.new("BindableEvent")
 	return self
 end
 
-function State:Set(newValue)
+function State:Set(newValue : any)
 	if newValue == nil then
 		error("New value cannot be nil")
 	end
@@ -26,7 +30,7 @@ function State:Get()
 end
 
 -- Bind a state to a UI property and listen for changes to update the state
-function State:BindTo(instance, property)
+function State:BindTo(instance : Types.VuxelUIInstance, property : string)
 	if not instance or not instance:IsA("Instance") then
 		error("Invalid instance")
 	end

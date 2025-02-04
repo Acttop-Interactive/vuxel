@@ -1,3 +1,4 @@
+--!strict
 local State = require(script.Parent.State)
 local References = require(script.Parent.References)
 local Components = require(script.Parent.Components)

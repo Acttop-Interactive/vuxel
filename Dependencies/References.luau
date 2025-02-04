@@ -1,3 +1,7 @@
+--!strict
+
+local Types = require(script.Parent.Types)
+
 local References = {}
 
 -- Table to store all component references
